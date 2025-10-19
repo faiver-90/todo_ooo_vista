@@ -5,7 +5,7 @@ LOG_DIR = Path(__file__).parent.parent.parent.parent / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def setup_logger():
+def setup_logger() -> None:
     """
     Configure application-wide logging using the built-in logging system.
 

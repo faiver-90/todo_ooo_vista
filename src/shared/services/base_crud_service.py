@@ -26,7 +26,7 @@ class BaseCRUDService(Generic[RepoType]):
         """
         self.repo = repo
 
-    async def create(self, data, user_id=None):
+    async def create(self, data: dict, user_id=None):
         """
         Create a new record.
 
