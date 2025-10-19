@@ -4,8 +4,25 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     """
-    Единая типизированная конфигурация приложения.
-    Значения берутся из .env, при отсутствии — используются дефолты ниже.
+    Strongly typed global application configuration.
+
+    Reads environment variables from the `.env` file or system environment.
+    Provides connection details for PostgreSQL and other core settings.
+
+    Attributes:
+        postgres_user (str): PostgreSQL username.
+        postgres_password (str): PostgreSQL password.
+        postgres_db (str): PostgreSQL database name.
+        postgres_host (str): Host address for the PostgreSQL server.
+        postgres_port (int): Port number for PostgreSQL (default: 5432).
+        database_url (str | None): Full async database URL (if defined).
+        sync_database_url (str | None): Full sync database URL (if defined).
+
+    Config:
+        env_file (str): Path to the `.env` file.
+        env_file_encoding (str): Encoding of the environment file.
+        case_sensitive (bool): Whether environment variable names are case-sensitive.
+        extra (str): Behavior for unknown fields (ignored).
     """
 
     postgres_user: str = Field("pgres", alias="POSTGRES_USER")

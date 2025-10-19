@@ -15,13 +15,30 @@ AsyncSessionLocal = async_sessionmaker(
 
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
+    """
+    Dependency that provides an asynchronous SQLAlchemy session.
+
+    Yields a single instance of AsyncSession, ensuring proper
+    connection management within FastAPI routes and services.
+
+    Yields:
+        AsyncGenerator[AsyncSession, None]: Active asynchronous database session.
+    """
     async with AsyncSessionLocal() as session:
         yield session
 
 
 @contextmanager
 def get_sync_session():
-    """Context manager for synchronous session."""
+    """
+    Context manager for creating and closing a synchronous SQLAlchemy session.
+
+    Intended for use in scripts, migrations, or background tasks that
+    require blocking (non-async) database access.
+
+    Yields:
+        Session: Active synchronous SQLAlchemy session.
+    """
     SessionLocal = sessionmaker(bind=sync_engine)
     db = SessionLocal()
     try:

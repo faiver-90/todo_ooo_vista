@@ -9,6 +9,18 @@ from src.shared.db.session import get_async_session
 async def get_todo_service(
     db: AsyncSession = Depends(get_async_session),
 ) -> ToDoService:
+    """
+    Dependency provider that returns a ToDoService instance.
+
+    Initializes and provides a new instance of the ToDoService
+    with the current application settings and an active database session.
+
+    Args:
+        db (AsyncSession): SQLAlchemy asynchronous session, injected by FastAPI's dependency system.
+
+    Returns:
+        ToDoService: The service object responsible for ToDo business logic and database operations.
+    """
     return ToDoService(
         settings=get_settings(),
     )

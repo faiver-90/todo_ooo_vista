@@ -6,6 +6,21 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def setup_logger():
+    """
+    Configure application-wide logging using the built-in logging system.
+
+    Sets up rotating file handlers for application and error logs, defines
+    human-readable and JSON formatters, and assigns handlers to custom loggers.
+
+    Log files:
+        - app.log: General application logs (INFO level and above)
+        - errors.log: Error logs (ERROR level and above)
+
+    The log configuration includes:
+        - Two formatters (plain text and JSON)
+        - RotatingFileHandler for each log type
+        - Logger definitions: 'app_log' and 'errors_log'
+    """
     dictConfig(
         {
             "version": 1,
@@ -37,35 +52,9 @@ def setup_logger():
                     "formatter": "default",
                     "level": "ERROR",
                 },
-                "access": {
-                    "class": "logging.handlers.RotatingFileHandler",
-                    "filename": str(LOG_DIR / "access.log"),
-                    "maxBytes": 5 * 1024 * 1024,
-                    "backupCount": 5,
-                    "formatter": "default",
-                    "level": "INFO",
-                },
-                "source": {
-                    "class": "logging.handlers.RotatingFileHandler",
-                    "filename": str(LOG_DIR / "source.log"),
-                    "maxBytes": 5 * 1024 * 1024,
-                    "backupCount": 5,
-                    "formatter": "default",
-                    "level": "INFO",
-                },
             },
             "loggers": {
                 "app_log": {"handlers": ["app"], "level": "DEBUG", "propagate": False},
-                "access_log": {
-                    "handlers": ["access"],
-                    "level": "INFO",
-                    "propagate": False,
-                },
-                "source_log": {
-                    "handlers": ["source"],
-                    "level": "INFO",
-                    "propagate": False,
-                },
                 "errors_log": {
                     "handlers": ["errors"],
                     "level": "DEBUG",
