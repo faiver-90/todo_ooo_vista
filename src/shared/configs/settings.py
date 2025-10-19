@@ -17,6 +17,8 @@ class Settings(BaseSettings):
         postgres_port (int): Port number for PostgreSQL (default: 5432).
         database_url (str | None): Full async database URL (if defined).
         sync_database_url (str | None): Full sync database URL (if defined).
+        debug_db (bool): Enable SQLAlchemy engine echo for debugging.
+        use_pgbouncer (bool): Flag to switch SQLAlchemy engines into NullPool mode when using PgBouncer.
 
     Config:
         env_file (str): Path to the `.env` file.
@@ -33,6 +35,8 @@ class Settings(BaseSettings):
 
     database_url: str | None = Field(None, alias="DATABASE_URL")
     sync_database_url: str | None = Field(None, alias="SYNC_DATABASE_URL")
+    debug_db: bool = Field(False, alias="DEBUG_DB")
+    use_pgbouncer: bool = Field(False, alias="USE_PGBOUNCER")
 
     model_config = SettingsConfigDict(
         env_file=".env",
