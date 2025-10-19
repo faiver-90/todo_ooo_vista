@@ -25,7 +25,7 @@ else:
     )
 
 async_engine = create_async_engine(  # type: ignore[arg-type]
-    settings.database_url,
+    settings.database_url,  # type: ignore
     **async_engine_options,
 )
 
@@ -37,6 +37,6 @@ if settings.use_pgbouncer:
     sync_engine_options.update({"poolclass": NullPool, "pool_pre_ping": True})
 
 sync_engine = create_engine(  # type: ignore[arg-type]
-    settings.sync_database_url,
+    settings.sync_database_url,  # type: ignore
     **sync_engine_options,
 )
