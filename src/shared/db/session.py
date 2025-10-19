@@ -21,7 +21,7 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
 
 @contextmanager
 def get_sync_session():
-    """Контекстный менеджер для синхронной сессии."""
+    """Context manager for synchronous session."""
     SessionLocal = sessionmaker(bind=sync_engine)
     db = SessionLocal()
     try:

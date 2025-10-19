@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from src.shared.configs.get_settings import get_settings
 
 settings = get_settings()
-# --- Асинхронный движок (для FastAPI) ---
+# --- Asynchronous motor (для FastAPI) ---
 async_engine = create_async_engine(
     settings.database_url,  #  type: ignore[misc]
     echo=settings.debug_db if hasattr(settings, "debug") else False,
@@ -16,7 +16,7 @@ async_engine = create_async_engine(
     pool_pre_ping=True,
 )
 
-# --- Синхронный движок (для Alembic, скриптов, Celery и т.д.) ---
+# --- Synchronous engine (for Alembic, scripts, Celery, etc.) ---
 sync_engine = create_engine(
     settings.sync_database_url,  #  type: ignore[misc]
     echo=settings.debug_db if hasattr(settings, "debug") else False,

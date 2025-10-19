@@ -23,8 +23,8 @@ def get_app() -> FastAPI:
 
     @app_init.get(
         "/health_check",
-        summary="Проверка работоспособности приложения и базы данных",
-        description="Возвращает статус работы сервера и подключения к базе данных.",
+        summary="Checking the functionality of the application and database",
+        description="Returns the status of the server and database connection..",
         tags=["Service"],
     )
     async def health_check(
