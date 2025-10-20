@@ -76,10 +76,14 @@ class BaseRepository(Generic[ModelType]):
         Returns:
             ModelType | None: The ORM object if found, otherwise None.
         """
+
         stmt = select(self.model).where(self.model.id == obj_id)
 
+        if hasattr(self.model, "is_deleted"):
+            stmt = stmt.where(self.model.is_deleted.is_(False))
+
         if user_id is not None and hasattr(self.model, "user_id"):
-            stmt = stmt.where(self.model.user_id == user_id, self.model.id == obj_id)
+            stmt = stmt.where(self.model.user_id == user_id)
 
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
@@ -94,11 +98,12 @@ class BaseRepository(Generic[ModelType]):
         Returns:
             list[ModelType]: List of ORM objects.
         """
-        stmt = select(self.model)
 
+        stmt = select(self.model)
+        if hasattr(self.model, "is_deleted"):
+            stmt = stmt.where(self.model.is_deleted.is_(False))
         if user_id is not None and hasattr(self.model, "user_id"):
             stmt = stmt.where(self.model.user_id == user_id)
-        print("user_id", stmt)
 
         result = await self.session.execute(stmt)
         return result.scalars().all()
@@ -140,9 +145,17 @@ class BaseRepository(Generic[ModelType]):
         Returns:
             bool: True if the record was deleted, False if not found.
         """
-        obj = await self.get(obj_id)
+        obj = await self.get(obj_id, user_id)
         if not obj:
             return False
+
+        # Если есть поле is_deleted — делаем мягкое удаление
+        if hasattr(obj, "is_deleted"):
+            obj.is_deleted = True
+            await self.session.commit()
+            return True
+
+        # Иначе физическое удаление
         await self.session.delete(obj)
         await self.session.commit()
         return True

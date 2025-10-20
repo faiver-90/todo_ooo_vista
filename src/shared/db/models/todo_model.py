@@ -20,6 +20,7 @@ class ToDo(Base):
         is_completed (bool): Indicates whether the task is completed.
         created_at (datetime): Timestamp when the record was created.
         updated_at (datetime): Timestamp when the record was last updated.
+        is_deleted (bool): Soft delete flag.
     """
 
     __tablename__ = "todos"
@@ -36,3 +37,4 @@ class ToDo(Base):
         server_default=func.now(),
         onupdate=func.now(),
     )
+    is_deleted: Mapped[bool] = mapped_column(Boolean, default=False)
