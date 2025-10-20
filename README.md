@@ -23,6 +23,7 @@
 Примечание: внутри контейнера бэкенд подключается к PgBouncer по имени сервиса, это уже задано в `docker-compose.yml`. Менять `DATABASE_URL` в `.env` не требуется.
 
 3) Поднимите контейнеры:
+- Активировать Docker Swarm `docker swarm init`
 - С пересборкой образов: `docker compose up -d --build`
 - Или по шагам: `docker compose build` затем `docker compose up -d`
 
